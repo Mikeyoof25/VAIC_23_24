@@ -83,7 +83,8 @@ void turnTo(double angle, int tolerance, int speed){
         int direction = angle_to_turn > 0 ? 1 : -1;
 
         // Speed is determined by degrees per loop iteration
-        Drivetrain.turnFor(speed * direction, rotationUnits::deg, 50, velocityUnits::pct, false);
+        //                  angle                             turn speed
+        Drivetrain.turnFor(speed * direction, rotationUnits::deg, 10, velocityUnits::pct, false);
         current_heading = GPS.heading();
         // Check if the current heading is within a tolerance of degrees to the target
         if (current_heading > (angle - tolerance) && current_heading < (angle + tolerance)) {
@@ -126,7 +127,7 @@ void moveToPosition(double target_x, double target_y, double target_theta = -1) 
 
     // Recalculate the heading and distance to the target
     double heading = calculateBearing(GPS.xPosition(distanceUnits::cm), GPS.yPosition(distanceUnits::cm), target_x, target_y);
-    turnTo(heading, 15, 10);
+    turnTo(heading, 30, 10);
     distance = distanceTo(target_x, target_y);
     // Move to the target, completing the remaining distance
     driveFor(heading, distance, 20);
@@ -135,7 +136,7 @@ void moveToPosition(double target_x, double target_y, double target_theta = -1) 
     if (target_theta == -1){
         target_theta = GPS.heading();
     }
-    turnTo(target_theta, 5, 2);
+    turnTo(target_theta, 15, 2);
 }
 
 // Function to find the target object based on type and return its record
@@ -163,9 +164,10 @@ void getObject(){
         Drivetrain.turnFor(45, rotationUnits::deg, 50, velocityUnits::pct);
         target = findTarget(0);
     }
-    double rot = Arm.position(rotationUnits::deg);
-    intake(rot-1200, 1205);
+    // double rot = Arm.position(rotationUnits::deg);
+    // intake(rot-1200, 1205);
     // Move to the detected target's position
+    goToGoal(red);
     moveToPosition(target.mapLocation.x*100, target.mapLocation.y*100);
 }
 

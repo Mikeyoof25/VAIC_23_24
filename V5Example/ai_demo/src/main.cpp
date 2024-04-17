@@ -15,13 +15,18 @@ using namespace vex;
 
 brain Brain;
 // Robot configuration code.
-motor leftDrive = motor(PORT1, ratio18_1, false);
-motor rightDrive = motor(PORT2, ratio18_1, true);
-gps GPS = gps(PORT18, 17, 14, distanceUnits::cm, 90.0, turnType::right);
-smartdrive Drivetrain = smartdrive(leftDrive, rightDrive, GPS, 319.19, 320, 40, mm, 1);
+motor left1 = motor(PORT17, ratio6_1, true);
+motor left2 = motor(PORT18, ratio6_1, true);
+motor left3 = motor(PORT19, ratio6_1, true);
+motor right1 = motor(PORT12, ratio6_1, false);
+motor right2 = motor(PORT13, ratio6_1, false);
+motor right3 = motor(PORT15, ratio6_1, false);
+motor_group leftDrive = motor_group(left1,left2,left3);
+motor_group rightDrive = motor_group(right1,right2,right3);
+gps GPS = gps(PORT8, 17, 14, distanceUnits::cm, -90.0, turnType::right);
+smartdrive Drivetrain = smartdrive(leftDrive, rightDrive, GPS, 319.19, 305, 241 , mm, 1);
 motor Arm = motor(PORT3, ratio18_1, false);
 motor Intake = motor(PORT8, ratio18_1, false);
-
 
 // A global instance of competition
 competition Competition;
@@ -91,6 +96,8 @@ void auto_Isolation(void) {
 
 void auto_Interaction(void) {
   // Functions needed: evaluate which ball detected is target, go to target (x,y), intake ball, dump ball, 
+  goToGoal(red);
+  
 }
 
 
